@@ -18,6 +18,7 @@ class TotobankApplicationTests {
     @Test
     void addAccount() {
         Account account = new Account();
+        account.setAccountNumber("13124123");
         account.setName("박부기");
         account.setGrade("VIP");
         account.setBalance(0);
