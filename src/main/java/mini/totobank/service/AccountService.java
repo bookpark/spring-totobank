@@ -47,4 +47,17 @@ public class AccountService {
         return acc.getBalance();
     }
 
+    public Integer transfer(String accountNumberW, String accountNumberD, Integer money) throws Exception {
+        Optional<Account> accountW = accountRepository.findByAccountNumber(accountNumberW);
+        Optional<Account> accountD = accountRepository.findByAccountNumber(accountNumberD);
+        if (accountW.isEmpty() || accountD.isEmpty()) throw new Exception("계좌번호 오류");
+        Account accWithdraw = accountW.get();
+        accWithdraw.withdraw(money);
+        Account accDeposit = accountD.get();
+        accDeposit.deposit(money);
+        accountRepository.save(accWithdraw);
+        accountRepository.save(accDeposit);
+        return accWithdraw.getBalance();
+    }
+
 }

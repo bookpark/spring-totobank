@@ -82,4 +82,19 @@ public class AccountController {
         return res;
     }
 
+    @PostMapping("/api/transfer")
+    public ResponseEntity<Integer> transfer(@RequestParam("accountNumberW") String accountNumberW,
+                                            @RequestParam("accountNumberD") String accountNumberD,
+                                            @RequestParam("money") Integer money) {
+        ResponseEntity<Integer> res = null;
+        try {
+            Integer balance = accountService.transfer(accountNumberW, accountNumberD, money);
+            res = new ResponseEntity<Integer>(balance, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<Integer>(-1, HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
 }
