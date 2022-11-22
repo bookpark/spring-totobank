@@ -54,4 +54,32 @@ public class AccountController {
         return res;
     }
 
+    @PostMapping("/api/deposit")
+    public ResponseEntity<Integer> deposit(@RequestParam("accountNumber") String accountNumber,
+                                          @RequestParam("money") Integer money) {
+        ResponseEntity<Integer> res = null;
+        try {
+            Integer balance = accountService.deposit(accountNumber, money);
+            res = new ResponseEntity<Integer>(balance, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<Integer>(-1, HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
+    @PostMapping("/api/withdraw")
+    public ResponseEntity<Integer> withdraw(@RequestParam("accountNumber") String accountNumber,
+                                           @RequestParam("money") Integer money) {
+        ResponseEntity<Integer> res = null;
+        try {
+            Integer balance = accountService.withdraw(accountNumber, money);
+            res = new ResponseEntity<Integer>(balance, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<Integer>(-1, HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
 }

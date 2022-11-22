@@ -29,4 +29,22 @@ public class AccountService {
         return byAccountNumber.isPresent();
     }
 
+    public Integer deposit(String accountNumber, Integer money) throws Exception {
+        Optional<Account> byAccountNumber = accountRepository.findByAccountNumber(accountNumber);
+        if(byAccountNumber.isEmpty()) throw new Exception("계좌번호 오류");
+        Account acc = byAccountNumber.get();
+        acc.deposit(money);
+        accountRepository.save(acc);
+        return acc.getBalance();
+    }
+
+    public Integer withdraw(String accountNumber, Integer money) throws Exception {
+        Optional<Account> byAccountNumber = accountRepository.findByAccountNumber(accountNumber);
+        if(byAccountNumber.isEmpty()) throw new Exception("계좌번호 오류");
+        Account acc = byAccountNumber.get();
+        acc.withdraw(money);
+        accountRepository.save(acc);
+        return acc.getBalance();
+    }
+
 }
