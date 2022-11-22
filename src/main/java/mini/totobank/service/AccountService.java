@@ -24,4 +24,9 @@ public class AccountService {
         return byAccountNumber.get();
     }
 
+    public Boolean checkDuplicate(String accountNumber) throws Exception {
+        Optional<Account> byAccountNumber = accountRepository.findByAccountNumber(accountNumber);
+        return byAccountNumber.isPresent();
+    }
+
 }

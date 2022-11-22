@@ -41,4 +41,17 @@ public class AccountController {
         }
         return res;
     }
+
+    @PostMapping("/api/check-duplicate")
+    public ResponseEntity<Boolean> checkDuplicate(@RequestParam("accountNumber") String accountNumber) {
+        ResponseEntity<Boolean> res = null;
+        try {
+            Boolean isDuplicate = accountService.checkDuplicate(accountNumber);
+            res = new ResponseEntity<Boolean>(isDuplicate, HttpStatus.OK);
+        } catch (Exception e) {
+            res = new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
 }
