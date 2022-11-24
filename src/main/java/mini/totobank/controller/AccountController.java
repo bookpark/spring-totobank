@@ -3,11 +3,16 @@ package mini.totobank.controller;
 import lombok.RequiredArgsConstructor;
 import mini.totobank.domain.Account;
 import mini.totobank.service.AccountService;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -56,7 +61,7 @@ public class AccountController {
 
     @PostMapping("/api/deposit")
     public ResponseEntity<Integer> deposit(@RequestParam("accountNumber") String accountNumber,
-                                          @RequestParam("money") Integer money) {
+                                           @RequestParam("money") Integer money) {
         ResponseEntity<Integer> res = null;
         try {
             Integer balance = accountService.deposit(accountNumber, money);
@@ -70,7 +75,7 @@ public class AccountController {
 
     @PostMapping("/api/withdraw")
     public ResponseEntity<Integer> withdraw(@RequestParam("accountNumber") String accountNumber,
-                                           @RequestParam("money") Integer money) {
+                                            @RequestParam("money") Integer money) {
         ResponseEntity<Integer> res = null;
         try {
             Integer balance = accountService.withdraw(accountNumber, money);
@@ -97,4 +102,17 @@ public class AccountController {
         return res;
     }
 
+    @PostMapping("/api/list")
+    public ResponseEntity<List<Account>> accountList() throws Exception {
+        ResponseEntity<List<Account>> res = null;
+        List<Account> accs = null;
+        try {
+            accs = accountService.accountList();
+            res = new ResponseEntity<List<Account>>(accs, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<List<Account>>(accs, HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
 }
